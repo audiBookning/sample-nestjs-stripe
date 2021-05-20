@@ -1,6 +1,12 @@
-# Just a little test to try to implement stripe with Nestjs
+# Just a little test to try to implement Stripe with Nestjs
+
+Code Still not complete and not presentable 😎
 
 ## Libs used
+
+- "[Nestjs](https://github.com/nestjs/nest)": "^7.6.15",
+
+- "[Stripe Node.js Library](https://github.com/stripe/stripe-node)": "^8.148.0"
 
 - "[@golevelup/nestjs-stripe](https://github.com/golevelup/nestjs/tree/master/packages/stripe)": "^0.2.0",
 
@@ -16,4 +22,4 @@
 
   - The code used in the `StripeFixedPriceController` is directly based from [Subscriptions with fixed price](https://github.com/stripe-samples/subscription-use-cases/tree/master/fixed-price-subscriptions/)
 
-- The webhooks are consumed in the stripe service with the help of the @StripeWebhookHandler decorator.
+- The Webhooks are consumed in the stripe service with the help of the `@StripeWebhookHandler` decorator.
