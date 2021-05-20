@@ -1,11 +1,14 @@
 import { InjectStripeClient } from '@golevelup/nestjs-stripe';
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { Stripe } from 'stripe';
+import { CreatePortalSessionDto } from './checkout-dto/create-portal-session.dto';
+import { CkCreateCheckoutSessionDto } from './checkout-dto/create-subscription.dto';
+import { GetCheckoutSessionDto } from './checkout-dto/get-checkout-session.dto';
 import { StripeAppService } from './stripe.service';
 // REF: https://github.com/stripe-samples/checkout-single-subscription/blob/master/server/node/server.js
 
-@Controller('stripe')
-export class StripeAppController {
+@Controller('stripe-checkout')
+export class StripeCheckoutController {
   constructor(
     private readonly stripeSvc: StripeAppService,
     @InjectStripeClient() private stripeClient: Stripe,
@@ -16,10 +19,18 @@ export class StripeAppController {
     return this.stripeSvc.getHello();
   }
 
+  // Fetch the Checkout Session to display the JSON result on the success page
+  @Get('checkout-session')
+  checkoutSession(
+    @Query() { sessionId }: GetCheckoutSessionDto,
+  ): Promise<Stripe.Response<Stripe.Checkout.Session>> {
+    return this.stripeClient.checkout.sessions.retrieve(sessionId);
+  }
+
   // TODO: Implement with Config
   // TODO: Change to @Post and Body payload
-  @Get('create-checkout-session/:priceId')
-  async createCheckoutSession(@Param('priceId') priceId: string) {
+  @Post('create-checkout-session')
+  async createCheckoutSession(@Body() { priceId }: CkCreateCheckoutSessionDto) {
     const domainURL = process.env.DOMAIN;
     // Create new Checkout Session for the order
     // Other optional params include:
@@ -52,9 +63,22 @@ export class StripeAppController {
   }
 
   // TODO: Implement with Config
+  @Get('setup')
+  getSetup() {
+    return {
+      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      // TODO: These should come from the Databse or from the stripe API
+      basicPrice: process.env.BASIC_PRICE_ID,
+      proPrice: process.env.PRO_PRICE_ID,
+    };
+  }
+
+  // TODO: Implement with Config
   // TODO: Change to @Post and Body payload
-  @Get('customer-portal/:sessionId')
-  async getCustomerPortal(@Param('sessionId') sessionId: string) {
+  @Post('customer-portal')
+  async getCustomerPortal(
+    @Body('sessionId') { sessionId }: CreatePortalSessionDto,
+  ) {
     const checkoutsession = await this.stripeClient.checkout.sessions.retrieve(
       sessionId,
     );
@@ -71,24 +95,5 @@ export class StripeAppController {
     return {
       url: portalsession.url,
     };
-  }
-
-  // TODO: Implement with Config
-  @Get('setup')
-  getSetup() {
-    return {
-      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-      // TODO: These should come from the Databse or from the stripe API
-      basicPrice: process.env.BASIC_PRICE_ID,
-      proPrice: process.env.PRO_PRICE_ID,
-    };
-  }
-
-  // Fetch the Checkout Session to display the JSON result on the success page
-  @Get('checkout-session/:sessionId')
-  checkoutSession(
-    @Param('sessionId') sessionId: string,
-  ): Promise<Stripe.Response<Stripe.Checkout.Session>> {
-    return this.stripeClient.checkout.sessions.retrieve(sessionId);
   }
 }

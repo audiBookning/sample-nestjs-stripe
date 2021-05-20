@@ -11,7 +11,8 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 import { config } from 'dotenv';
-import { StripeAppController } from './stripe.controller';
+import { StripeCheckoutController } from './stripe-checkout.controller';
+import { StripeFixedPriceController } from './stripe-fixed-price.controller';
 import { StripeAppService } from './stripe.service';
 config();
 
@@ -26,7 +27,7 @@ config();
       },
     }),
   ],
-  controllers: [StripeAppController],
+  controllers: [StripeCheckoutController, StripeFixedPriceController],
   providers: [StripeAppService],
 })
 export class StripeAppModule implements NestModule {
