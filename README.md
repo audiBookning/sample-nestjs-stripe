@@ -25,3 +25,5 @@ Code Still not complete and not presentable 😎
   - The code used in the `StripeMeteredUsageController` is directly based from [Subscriptions with metered usage](https://github.com/stripe-samples/subscription-use-cases/tree/master/usage-based-subscriptions)
 
 - The Webhooks are consumed in the stripe service with the help of the `@StripeWebhookHandler` decorator.
+
+- Rename `.env.example` to `.env` and change the stripe keys
