@@ -30,6 +30,25 @@ export class StripeAppService {
   }
 
   // *******************************
+  // METERED USAGE SUBSCRIPTION
+  // *******************************
+
+  // INFO: Already implemented in FIXED PRICE SUBSCRIPTION
+  // invoice.payment_failed, invoice.finalized,
+  // customer.subscription.deleted, customer.subscription.trial_will_end
+
+  @StripeWebhookHandler('invoice.paid')
+  handleInvoicePaid(evt: Stripe.Event) {
+    console.log('handleCheckoutSessionCompleted evt: ', evt);
+    const dataObject = evt.data.object as Stripe.Invoice;
+    console.log(`🔔  Invoice paid!`);
+    // Used to provision services after the trial has ended.
+    // The status of the invoice will show up as paid. Store the status in your
+    // database to reference when a user accesses your service to avoid hitting rate limits.
+    return true;
+  }
+
+  // *******************************
   // FIXED PRICE SUBSCRIPTION
   // *******************************
   @StripeWebhookHandler('invoice.payment_succeeded')

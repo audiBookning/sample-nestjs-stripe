@@ -13,6 +13,7 @@ import {
 import { config } from 'dotenv';
 import { StripeCheckoutController } from './stripe-checkout.controller';
 import { StripeFixedPriceController } from './stripe-fixed-price.controller';
+import { StripeMeteredUsageController } from './stripe-metered-usage.controller';
 import { StripeAppService } from './stripe.service';
 config();
 
@@ -27,7 +28,11 @@ config();
       },
     }),
   ],
-  controllers: [StripeCheckoutController, StripeFixedPriceController],
+  controllers: [
+    StripeCheckoutController,
+    StripeFixedPriceController,
+    StripeMeteredUsageController,
+  ],
   providers: [StripeAppService],
 })
 export class StripeAppModule implements NestModule {
