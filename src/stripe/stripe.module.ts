@@ -10,6 +10,7 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { StripeCheckoutController } from './stripe-checkout.controller';
 import { StripeFixedPriceController } from './stripe-fixed-price.controller';
@@ -21,11 +22,21 @@ config();
   imports: [
     JsonBodyMiddleware,
     RawBodyMiddleware,
-    StripeModule.forRoot(StripeModule, {
+    /* StripeModule.forRoot(StripeModule, {
       apiKey: process.env.STRIPE_API_KEY,
       webhookConfig: {
         stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
       },
+    }), */
+    StripeModule.forRootAsync(StripeModule, {
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        apiKey: process.env.STRIPE_API_KEY,
+        webhookConfig: {
+          stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+        },
+      }),
+      inject: [ConfigService],
     }),
   ],
   controllers: [

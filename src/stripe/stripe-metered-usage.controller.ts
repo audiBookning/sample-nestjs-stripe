@@ -1,5 +1,6 @@
 import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
 import { FPCreateCustomerDto } from './fixed-price-dto/create-customer.dto';
 import { MUCancelSubscriptionDto } from './metered-usage-dto/cancel-subscription.dto';
@@ -16,6 +17,7 @@ import { StripeAppService } from './stripe.service';
 export class StripeMeteredUsageController {
   constructor(
     private readonly stripeSvc: StripeAppService,
+    private readonly configSvc: ConfigService,
     @InjectStripeClient() private stripeClient: Stripe,
   ) {}
 
@@ -28,7 +30,7 @@ export class StripeMeteredUsageController {
   @Get('setup')
   getSetup() {
     return {
-      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      publishableKey: this.configSvc.get<string>('stripe.publishablekey}'),
     };
   }
 
@@ -77,7 +79,11 @@ export class StripeMeteredUsageController {
     // Create the subscription
     const subscription = await this.stripeClient.subscriptions.create({
       customer: customerId,
-      items: [{ price: process.env[priceId] }],
+      // TODO: this dynamic 'getter' of configSvc is a security issue
+      // The plans should not come from the env, get them from the database for example
+      items: [
+        { price: this.configSvc.get<string>(`stripeMeteredUsage.${priceId}`) },
+      ],
       expand: ['latest_invoice.payment_intent', 'pending_setup_intent'],
     });
 
@@ -132,7 +138,7 @@ export class StripeMeteredUsageController {
           deleted: true,
         },
         {
-          price: process.env[newPriceId],
+          price: this.configSvc.get<string>(`stripeMeteredUsage.${newPriceId}`),
           deleted: false,
         },
       ],
@@ -172,7 +178,9 @@ export class StripeMeteredUsageController {
           items: [
             {
               id: subscription.items.data[0].id,
-              price: process.env[newPriceId.toUpperCase()],
+              price: this.configSvc.get<string>(
+                `stripeMeteredUsage.${newPriceId}`,
+              ),
             },
           ],
         },

@@ -1,5 +1,6 @@
 import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
 import { FPCancelSubscriptionDto } from './fixed-price-dto/cancel-subscription.dto';
 import { FPCreateCustomerDto } from './fixed-price-dto/create-customer.dto';
@@ -14,6 +15,7 @@ import { StripeAppService } from './stripe.service';
 export class StripeFixedPriceController {
   constructor(
     private readonly stripeSvc: StripeAppService,
+    private readonly configSvc: ConfigService,
     @InjectStripeClient() private stripeClient: Stripe,
   ) {}
 
@@ -30,7 +32,7 @@ export class StripeFixedPriceController {
       expand: ['data.product'],
     });
     return {
-      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      publishableKey: this.configSvc.get<string>('stripe.publishablekey'),
       proPrice: prices.data,
     };
   }
@@ -104,7 +106,9 @@ export class StripeFixedPriceController {
     @Query() { subscriptionId, newPriceLookupKey }: FPGetInvoicePreviewDto,
   ) {
     const customerId = 'customer';
-    const priceId = process.env[newPriceLookupKey.toUpperCase()];
+    const priceId = this.configSvc.get<string>(
+      `stripeFixedPrice.${newPriceLookupKey}`,
+    );
 
     const subscription = await this.stripeClient.subscriptions.retrieve(
       subscriptionId,
@@ -155,7 +159,9 @@ export class StripeFixedPriceController {
           items: [
             {
               id: subscription.items.data[0].id,
-              price: process.env[newPriceLookupKey.toUpperCase()],
+              price: this.configSvc.get<string>(
+                `stripeFixedPrice.${newPriceLookupKey}`,
+              ),
             },
           ],
         },

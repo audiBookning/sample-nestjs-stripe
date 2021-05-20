@@ -1,5 +1,6 @@
 import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Stripe } from 'stripe';
 import { CreatePortalSessionDto } from './checkout-dto/create-portal-session.dto';
 import { CkCreateCheckoutSessionDto } from './checkout-dto/create-subscription.dto';
@@ -11,7 +12,8 @@ import { StripeAppService } from './stripe.service';
 export class StripeCheckoutController {
   constructor(
     private readonly stripeSvc: StripeAppService,
-    @InjectStripeClient() private stripeClient: Stripe,
+    private readonly configSvc: ConfigService,
+    @InjectStripeClient() private readonly stripeClient: Stripe,
   ) {}
 
   @Get('hello')
@@ -31,7 +33,7 @@ export class StripeCheckoutController {
   // TODO: Change to @Post and Body payload
   @Post('create-checkout-session')
   async createCheckoutSession(@Body() { priceId }: CkCreateCheckoutSessionDto) {
-    const domainURL = process.env.DOMAIN;
+    const domainURL = this.configSvc.get<string>('domain');
     // Create new Checkout Session for the order
     // Other optional params include:
     // [billing_address_collection] - to display billing address details on the page
@@ -66,10 +68,10 @@ export class StripeCheckoutController {
   @Get('setup')
   getSetup() {
     return {
-      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      publishableKey: this.configSvc.get<string>('stripe.publishablekey'),
       // TODO: These should come from the Databse or from the stripe API
-      basicPrice: process.env.BASIC_PRICE_ID,
-      proPrice: process.env.PRO_PRICE_ID,
+      basicPrice: this.configSvc.get<string>('stripeCheckout.basicPriceId'),
+      proPrice: this.configSvc.get<string>('stripeCheckout.proPriceId'),
     };
   }
 
@@ -84,11 +86,15 @@ export class StripeCheckoutController {
     );
     // This is the url to which the customer will be redirected when they are done
     // managing their billing with the portal.
-    const returnUrl = process.env.PORTAL_RETURN_URL;
+    const domain = this.configSvc.get<string>('domain');
+    const port = this.configSvc.get<string>('port');
+    const returnUrl = this.configSvc.get<string>(
+      'stripeCheckout.portalReturnUrl',
+    );
     const portalsession = await this.stripeClient.billingPortal.sessions.create(
       {
         customer: checkoutsession.customer as string,
-        return_url: returnUrl,
+        return_url: `${domain}:${port}${returnUrl}`,
       },
     );
 
