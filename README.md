@@ -10,6 +10,10 @@
 
 - The whole stripe code is in the stripe.module
 
-- In the controller the code used comes from [checkout-single-subscription](https://github.com/stripe-samples/checkout-single-subscription/)
+- There are 2 different controllers and routes, implementing different strategies
+
+  - The code used in the `StripeCheckoutController` is directly based from [Using Checkout for subscriptions](https://github.com/stripe-samples/checkout-single-subscription/)
+
+  - The code used in the `StripeFixedPriceController` is directly based from [Subscriptions with fixed price](https://github.com/stripe-samples/subscription-use-cases/tree/master/fixed-price-subscriptions/)
 
 - The webhooks are consumed in the stripe service with the help of the @StripeWebhookHandler decorator.

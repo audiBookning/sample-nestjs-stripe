@@ -8,7 +8,7 @@ import { FPGetInvoicePreviewDto } from './fixed-price-dto/get-invoice-preview.dt
 import { FPUpdateSubscriptionDto } from './fixed-price-dto/update-subscription.dto';
 import { StripeAppService } from './stripe.service';
 
-// REF: https://github.com/stripe-samples/checkout-single-subscription/blob/master/server/node/server.js
+// REF: https://github.com/stripe-samples/subscription-use-cases/blob/master/fixed-price-subscriptions/server/node/server.js
 
 @Controller('stripe-fixed-price')
 export class StripeFixedPriceController {
