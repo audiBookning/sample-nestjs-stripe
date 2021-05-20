@@ -4,7 +4,7 @@
   "description": "just testing some code",
   "author": "audiBookning",
   "private": true,
-  "license": "MIT",
+  "license": "ISC",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
