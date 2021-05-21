@@ -2,9 +2,9 @@ import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Stripe } from 'stripe';
-import { CreatePortalSessionDto } from './checkout-dto/create-portal-session.dto';
-import { CkCreateCheckoutSessionDto } from './checkout-dto/create-subscription.dto';
-import { GetCheckoutSessionDto } from './checkout-dto/get-checkout-session.dto';
+import { CreatePortalSessionDto } from './dto/create-portal-session.dto';
+import { CreateCheckoutSessionDto } from './dto/create-subscription.dto';
+import { GetCheckoutSessionDto } from './dto/get-checkout-session.dto';
 // REF: https://github.com/stripe-samples/checkout-single-subscription/blob/master/server/node/server.js
 
 @Controller('stripe-checkout')
@@ -25,7 +25,7 @@ export class StripeCheckoutController {
   // TODO: Implement with Config
   // TODO: Change to @Post and Body payload
   @Post('create-checkout-session')
-  async createCheckoutSession(@Body() { priceId }: CkCreateCheckoutSessionDto) {
+  async createCheckoutSession(@Body() { priceId }: CreateCheckoutSessionDto) {
     const domainURL = this.configSvc.get<string>('domain');
     // Create new Checkout Session for the order
     // Other optional params include:

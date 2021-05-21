@@ -2,13 +2,13 @@ import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
-import { FPCreateCustomerDto } from './fixed-price-dto/create-customer.dto';
-import { MUCancelSubscriptionDto } from './metered-usage-dto/cancel-subscription.dto';
-import { MUCreateSubscriptionDto } from './metered-usage-dto/create-subscription.dto';
-import { MURetrieveCustomerPM } from './metered-usage-dto/retrieveCustomerPM.dto';
-import { MURetryInvoice } from './metered-usage-dto/retry-invoice.dto';
-import { MURetryUpcomingInvoice } from './metered-usage-dto/retry-upcoming-invoice.dto';
-import { MUUpdateSubscriptionDto } from './metered-usage-dto/update-subscription.dto';
+import { CreateCustomerDto } from '../stripe-fixed-price/dto/create-customer.dto';
+import { MUCancelSubscriptionDto } from './dto/cancel-subscription.dto';
+import { MUCreateSubscriptionDto } from './dto/create-subscription.dto';
+import { MURetrieveCustomerPM } from './dto/retrieveCustomerPM.dto';
+import { MURetryInvoice } from './dto/retry-invoice.dto';
+import { MURetryUpcomingInvoice } from './dto/retry-upcoming-invoice.dto';
+import { MUUpdateSubscriptionDto } from './dto/update-subscription.dto';
 
 // REF: https://github.com/stripe-samples/subscription-use-cases/blob/master/usage-based-subscriptions/server/node/server.js
 
@@ -28,7 +28,7 @@ export class StripeMeteredUsageController {
   }
 
   @Post('create-customer')
-  async createCustomer(@Body() { email }: FPCreateCustomerDto) {
+  async createCustomer(@Body() { email }: CreateCustomerDto) {
     try {
       // Create a new customer object
       const customer = await this.stripeClient.customers.create({

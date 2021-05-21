@@ -1,10 +1,10 @@
 # Just a little test to try to implement Stripe with Nestjs
 
-- Code Still not complete and not presentable 😎
+- Code Still not complete and not presentable. 😎
 
 - And more importantly, there is no tests.
 
-- Some manual tests were done for the webhooks
+- Some manual tests were done for the webhooks.
 
 - This is a basic Nestjs project, so to run it just use `npm run start:dev`.
 
@@ -22,7 +22,11 @@
 
 - The whole stripe code is in the `StripeAppModule`.
 
-- There are 5 different controllers and "main" routes each with its own service (used at this time only for the Webhooks), implementing different strategies:
+- The stripe code is in 5 different modules, each with controllers controlling some "main" routes with its own service (used at this time only for the Webhooks), implementing different strategies.
+
+- Leave only one module imported in the app.module by uncommenting it (comment the others) to avoid well deserved instabilities when using the @golevelup/nestjs-stripe module.
+
+- Their controllers are:
 
   - The code used in the `StripeCheckoutController` is directly based from [Using Checkout for subscriptions](https://github.com/stripe-samples/checkout-single-subscription/).
 
@@ -36,24 +40,20 @@
 
 - The Webhooks are consumed in the stripe services with the help of the `@StripeWebhookHandler` decorator.
 
-- Leave only one service as a provider in the module by uncommenting it (comment the others) to avoid to much confusion.
-
 - The route for the Webhooks is `stripe/webhook`.
 
 - Rename `.env.example` to `.env` and change the stripe keys.
 
-- Since this is just a test (with minimal effort ...) and in with the objective of separating a little the code of the different subscription strategies without creating different repo, modules or more complexity, much of the code or config is repeated.
+- Since this is just a test (with minimal effort ...) and in with the objective of separating a little the code of the different subscription strategies without creating different repo or more complexity, much of the code or config is repeated. It will also give the easiness of latter simply copying a specific module folder to use as a quick boilerplate.
 
 - Each strategy has a separate config file. Many times the config is the same between them...
 
 ## TODO
 
-- Add tests
+- Add tests.
 
-- Errors are very generic
+- Errors are too generic and many try catch missing, although Nestjs catch them by default...
 
-- Many try catch missing, although Nestjs catch them by default...
-
-- Maybe separate module for each strategy?
+- It would be cleaner to create a dynamic module that would load the files of the different strategies depending on env variables. The problem is that one would loose the quick boilerplate possibility.
 
 - Integrate with a database. Maybe do it in a different repo in order to separate the basic "routing" implementation on its own?

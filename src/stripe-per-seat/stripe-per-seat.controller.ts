@@ -2,13 +2,13 @@ import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
-import { PSCancelSubscriptionDto } from './per-seat-dto/cancel-subscription.dto';
-import { PSCreateCustomerDto } from './per-seat-dto/create-customer.dto';
-import { PSCreateSubscriptionDto } from './per-seat-dto/create-subscription.dto';
-import { PSRetrieveSubsInfoDto } from './per-seat-dto/retrieve-subs-info.dto';
-import { PSRetryInvoice } from './per-seat-dto/retry-invoice.dto';
-import { PSRetryUpcomingInvoice } from './per-seat-dto/retry-upcoming-invoice.dto';
-import { PSUpdateSubscriptionDto } from './per-seat-dto/update-subscription.dto';
+import { PSCancelSubscriptionDto } from './dto/cancel-subscription.dto';
+import { PSCreateCustomerDto } from './dto/create-customer.dto';
+import { PSCreateSubscriptionDto } from './dto/create-subscription.dto';
+import { PSRetrieveSubsInfoDto } from './dto/retrieve-subs-info.dto';
+import { PSRetryInvoice } from './dto/retry-invoice.dto';
+import { PSRetryUpcomingInvoice } from './dto/retry-upcoming-invoice.dto';
+import { PSUpdateSubscriptionDto } from './dto/update-subscription.dto';
 
 // REF: https://github.com/stripe-samples/subscription-use-cases/blob/master/per-seat-subscriptions/server/node/server.js
 

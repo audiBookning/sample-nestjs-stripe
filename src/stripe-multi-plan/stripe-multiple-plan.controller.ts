@@ -2,8 +2,8 @@ import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
-import { MPCreateCustomerDto } from './multiple-plan-dto/create-customer.dto';
-import { MPGetSubscriptionDto } from './multiple-plan-dto/get-subscription.dto';
+import { MPCreateCustomerDto } from './dto/create-customer.dto';
+import { MPGetSubscriptionDto } from './dto/get-subscription.dto';
 
 // REF: https://github.com/stripe-samples/charging-for-multiple-plan-subscriptions/blob/master/server/node/server.js
 

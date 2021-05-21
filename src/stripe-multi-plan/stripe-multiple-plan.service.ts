@@ -20,20 +20,6 @@ export class StripeMultiplePlanService {
     return true;
   }
 
-  @StripeWebhookHandler('invoice.upcoming')
-  handleInvoiceUpcoming(evt: Stripe.Event) {
-    console.log('StripeMultiplePlanService invoice.upcoming: ', evt);
-    const dataObject = evt.data.object as Stripe.Invoice;
-    return true;
-  }
-
-  @StripeWebhookHandler('invoice.created')
-  handleInvoiceCreated(evt: Stripe.Event) {
-    console.log('StripeMultiplePlanService invoice.created: ', evt);
-    const dataObject = evt.data.object as Stripe.Invoice;
-    return true;
-  }
-
   @StripeWebhookHandler('customer.subscription.created')
   handleCustomerSubsCreated(evt: Stripe.Event) {
     console.log(
@@ -49,6 +35,20 @@ export class StripeMultiplePlanService {
     console.log('StripeMultiplePlanService customer.created: ', evt);
     const dataObject = evt.data.object as Stripe.Customer;
 
+    return true;
+  }
+
+  @StripeWebhookHandler('invoice.upcoming')
+  handleInvoiceUpcoming(evt: Stripe.Event) {
+    console.log('StripeMultiplePlanService invoice.upcoming: ', evt);
+    const dataObject = evt.data.object as Stripe.Invoice;
+    return true;
+  }
+
+  @StripeWebhookHandler('invoice.created')
+  handleInvoiceCreated(evt: Stripe.Event) {
+    console.log('StripeMultiplePlanService invoice.created: ', evt);
+    const dataObject = evt.data.object as Stripe.Invoice;
     return true;
   }
 

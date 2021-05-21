@@ -22,11 +22,7 @@ export class StripeFixedPriceService {
     if (typeof payment_intent_id !== 'string') {
       throw new Error('payment_intent_id should be of type string');
     }
-    const payment_intent = await this.stripeClient.paymentIntents.retrieve(
-      payment_intent_id,
-    );
-    console.log(`billing_reason: `, dataObject['billing_reason']);
-    console.log(`payment_intent: `, payment_intent);
+    await this.stripeClient.paymentIntents.retrieve(payment_intent_id);
 
     try {
       if (dataObject['billing_reason'] == 'subscription_create') {
@@ -53,12 +49,9 @@ export class StripeFixedPriceService {
           throw new Error('payment_method should be of type string');
         }
 
-        const subscription = await this.stripeClient.subscriptions.update(
-          subscription_id,
-          {
-            default_payment_method: payment_intent.payment_method,
-          },
-        );
+        await this.stripeClient.subscriptions.update(subscription_id, {
+          default_payment_method: payment_intent.payment_method,
+        });
 
         console.log(
           'Default payment method set for subscription:' +

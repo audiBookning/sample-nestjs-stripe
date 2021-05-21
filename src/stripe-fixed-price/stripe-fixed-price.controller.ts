@@ -2,11 +2,11 @@ import { InjectStripeClient } from '@golevelup/nestjs-stripe';
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
-import { FPCancelSubscriptionDto } from './fixed-price-dto/cancel-subscription.dto';
-import { FPCreateCustomerDto } from './fixed-price-dto/create-customer.dto';
-import { FPCreateSubscriptionDto } from './fixed-price-dto/create-subscription.dto';
-import { FPGetInvoicePreviewDto } from './fixed-price-dto/get-invoice-preview.dto';
-import { FPUpdateSubscriptionDto } from './fixed-price-dto/update-subscription.dto';
+import { CancelSubscriptionDto } from './dto/cancel-subscription.dto';
+import { CreateCustomerDto } from './dto/create-customer.dto';
+import { FPCreateSubscriptionDto } from './dto/create-subscription.dto';
+import { FPGetInvoicePreviewDto } from './dto/get-invoice-preview.dto';
+import { FPUpdateSubscriptionDto } from './dto/update-subscription.dto';
 
 // REF: https://github.com/stripe-samples/subscription-use-cases/blob/master/fixed-price-subscriptions/server/node/server.js
 
@@ -31,7 +31,7 @@ export class StripeFixedPriceController {
   }
 
   @Post('create-customer')
-  async createCustomer(@Body() { email }: FPCreateCustomerDto) {
+  async createCustomer(@Body() { email }: CreateCustomerDto) {
     try {
       // Create a new customer object
       const customer = await this.stripeClient.customers.create({
@@ -122,9 +122,7 @@ export class StripeFixedPriceController {
   }
 
   @Post('cancel-subscription')
-  async cancelSubscription(
-    @Body() { subscriptionId }: FPCancelSubscriptionDto,
-  ) {
+  async cancelSubscription(@Body() { subscriptionId }: CancelSubscriptionDto) {
     // Cancel the subscription
     try {
       const deletedSubscription = await this.stripeClient.subscriptions.del(
