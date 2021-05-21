@@ -33,7 +33,7 @@ export class StripeAppService {
   // METERED USAGE SUBSCRIPTION
   // *******************************
 
-  // INFO: WEBHOOKS  already implemented in FIXED PRICE SUBSCRIPTION
+  // INFO: WEBHOOKS  already implemented in strategies
   // invoice.payment_failed, invoice.finalized,
   // customer.subscription.deleted, customer.subscription.trial_will_end
 
@@ -155,9 +155,45 @@ export class StripeAppService {
   // PER SEAT SUBSCRIPTION
   // *******************************
 
-  // INFO: WEBHOOKS already implemented in METERED USAGE or FIXED PRICE
+  // INFO: WEBHOOKS already implemented in strategies
   // invoice.paid, invoice.payment_failed, invoice.finalized,
   // customer.subscription.deleted, customer.subscription.trial_will_end
+
+  // *******************************
+  // MULTIPLE PLAN SUBSCRIPTION
+  // *******************************
+
+  // INFO: WEBHOOKS already implemented in other strategies
+  // customer.created, invoice.finalized, invoice.payment_succeeded
+  // invoice.payment_failed,
+
+  @StripeWebhookHandler('customer.updated')
+  handleCustomerUpdated(evt: Stripe.Event) {
+    console.log('handlePaymentIntentCreated evt: ', evt);
+    const dataObject = evt.data.object as Stripe.Customer;
+    return true;
+  }
+
+  @StripeWebhookHandler('invoice.upcoming')
+  handleInvoiceUpcoming(evt: Stripe.Event) {
+    console.log('handlePaymentIntentCreated evt: ', evt);
+    const dataObject = evt.data.object as Stripe.Invoice;
+    return true;
+  }
+
+  @StripeWebhookHandler('invoice.created')
+  handleInvoiceCreated(evt: Stripe.Event) {
+    console.log('handlePaymentIntentCreated evt: ', evt);
+    const dataObject = evt.data.object as Stripe.Invoice;
+    return true;
+  }
+
+  @StripeWebhookHandler('customer.subscription.created')
+  handleCustomerSubsCreated(evt: Stripe.Event) {
+    console.log('handlePaymentIntentCreated evt: ', evt);
+    const dataObject = evt.data.object as Stripe.Subscription;
+    return true;
+  }
 
   // ****************************************
   // Various test
@@ -174,6 +210,7 @@ export class StripeAppService {
   handleCustomerCreated(evt: Stripe.Event) {
     console.log('handleCustomerCreated evt: ', evt);
     const dataObject = evt.data.object as Stripe.Customer;
+
     return true;
   }
 }
