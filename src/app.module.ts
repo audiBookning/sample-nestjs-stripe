@@ -8,11 +8,7 @@ import fixedPriceConfig from './config/fixed-price.config';
 import meteredUsageConfig from './config/metered-usage.config';
 import multiPlanConfig from './config/multi-plan.config';
 import perSeatConfig from './config/per-seat.config';
-import { StripeCheckoutModule } from './stripe-checkout/stripe-checkout.module';
-// import { StripeFixedPriceModule } from './stripe-fixed-price/stripe-fixed-price.module';
-// import { StripeMeteredUsageModule } from './stripe-metered-usage/stripe-metered-usage.module';
-// import { StripeMultiPlanModule } from './stripe-multi-plan/stripe-multiple-plan.module';
-// import { StripePerSeatModule } from './stripe-per-seat/stripe-per-seat.module';
+import { StrategyModule } from './loading-module/strategy.module';
 
 @Module({
   imports: [
@@ -27,11 +23,7 @@ import { StripeCheckoutModule } from './stripe-checkout/stripe-checkout.module';
       ],
       isGlobal: true,
     }),
-    StripeCheckoutModule,
-    // StripeFixedPriceModule,
-    // StripeMeteredUsageModule,
-    // StripeMultiPlanModule,
-    // StripePerSeatModule,
+    StrategyModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

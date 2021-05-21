@@ -20,11 +20,9 @@
 
 ## Notes
 
-- The whole stripe code is in the `StripeAppModule`.
+- The stripe code of the different subscription strategies is in 5 different modules, each with a controller managing some "main" routes and with its own service (used at this time only for the Webhooks).
 
-- The stripe code is in 5 different modules, each with controllers controlling some "main" routes with its own service (used at this time only for the Webhooks), implementing different strategies.
-
-- Leave only one module imported in the app.module by uncommenting it (comment the others) to avoid well deserved instabilities when using the @golevelup/nestjs-stripe module.
+- The StrategyModule is used just to dynamically load the different strategy modules depending on the env variable `STRIPE_STRATEGY`, so as to avoid well deserved instabilities when instantiating multiple times the @golevelup/nestjs-stripe module.
 
 - Their controllers are:
 
@@ -53,7 +51,5 @@
 - Add tests.
 
 - Errors are too generic and many try catch missing, although Nestjs catch them by default...
-
-- It would be cleaner to create a dynamic module that would load the files of the different strategies depending on env variables. The problem is that one would loose the quick boilerplate possibility.
 
 - Integrate with a database. Maybe do it in a different repo in order to separate the basic "routing" implementation on its own?

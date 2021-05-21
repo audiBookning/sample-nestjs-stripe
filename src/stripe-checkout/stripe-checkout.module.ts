@@ -20,18 +20,13 @@ config();
   imports: [
     JsonBodyMiddleware,
     RawBodyMiddleware,
-    /* StripeModule.forRoot(StripeModule, {
-      apiKey: process.env.STRIPE_API_KEY,
-      webhookConfig: {
-        stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
-      },
-    }), */
+
     StripeModule.forRootAsync(StripeModule, {
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        apiKey: process.env.STRIPE_API_KEY,
+      useFactory: (configSvc: ConfigService) => ({
+        apiKey: configSvc.get<string>('stripe.apiKey'),
         webhookConfig: {
-          stripeWebhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+          stripeWebhookSecret: configSvc.get<string>('stripe.webhookSecret'),
         },
       }),
       inject: [ConfigService],
