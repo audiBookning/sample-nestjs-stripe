@@ -33,7 +33,7 @@ export class StripeAppService {
   // METERED USAGE SUBSCRIPTION
   // *******************************
 
-  // INFO: Already implemented in FIXED PRICE SUBSCRIPTION
+  // INFO: WEBHOOKS  already implemented in FIXED PRICE SUBSCRIPTION
   // invoice.payment_failed, invoice.finalized,
   // customer.subscription.deleted, customer.subscription.trial_will_end
 
@@ -150,6 +150,14 @@ export class StripeAppService {
     // Send notification to your user that the trial will end
     return true;
   }
+
+  // *******************************
+  // PER SEAT SUBSCRIPTION
+  // *******************************
+
+  // INFO: WEBHOOKS already implemented in METERED USAGE or FIXED PRICE
+  // invoice.paid, invoice.payment_failed, invoice.finalized,
+  // customer.subscription.deleted, customer.subscription.trial_will_end
 
   // ****************************************
   // Various test

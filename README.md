@@ -1,6 +1,12 @@
 # Just a little test to try to implement Stripe with Nestjs
 
-Code Still not complete and not presentable 😎
+- Code Still not complete and not presentable 😎
+
+- And more importantly, there is no tests.
+
+- Some manual tests were done for the webhooks
+
+- This is a basic Nestjs project, so to run it just use `npm run start:dev`.
 
 ## Libs used
 
@@ -14,16 +20,22 @@ Code Still not complete and not presentable 😎
 
 ## Notes
 
-- The whole stripe code is in the stripe.module
+- The whole stripe code is in the `StripeAppModule`.
 
-- There are 3 different controllers and routes, implementing different strategies
+- There are 4 different controllers and "main" routes, implementing different strategies
 
-  - The code used in the `StripeCheckoutController` is directly based from [Using Checkout for subscriptions](https://github.com/stripe-samples/checkout-single-subscription/)
+  - The code used in the `StripeCheckoutController` is directly based from [Using Checkout for subscriptions](https://github.com/stripe-samples/checkout-single-subscription/).
 
-  - The code used in the `StripeFixedPriceController` is directly based from [Subscriptions with fixed price](https://github.com/stripe-samples/subscription-use-cases/tree/master/fixed-price-subscriptions/)
+  - The code used in the `StripeFixedPriceController` is directly based from [Subscriptions with fixed price](https://github.com/stripe-samples/subscription-use-cases/tree/master/fixed-price-subscriptions/).
 
-  - The code used in the `StripeMeteredUsageController` is directly based from [Subscriptions with metered usage](https://github.com/stripe-samples/subscription-use-cases/tree/master/usage-based-subscriptions)
+  - The code used in the `StripeMeteredUsageController` is directly based from [Subscriptions with metered usage](https://github.com/stripe-samples/subscription-use-cases/tree/master/usage-based-subscriptions).
 
-- The Webhooks are consumed in the stripe service with the help of the `@StripeWebhookHandler` decorator.
+  - The code used in the `StripePerSeatController` is directly based from [Subscriptions with per seat pricing](https://github.com/stripe-samples/subscription-use-cases/tree/master/per-seat-subscriptions).
 
-- Rename `.env.example` to `.env` and change the stripe keys
+- The Webhooks are consumed in the stripe service with the help of the `@StripeWebhookHandler` decorator. TODO: Maybe separate services for each strategy?
+
+- The route for the Webhooks is `stripe/webhook`.
+
+- Rename `.env.example` to `.env` and change the stripe keys.
+
+- Since this is just a test (with minimal effort ...) and in with the objective of separating a little the code of the different subscription strategies without creating different repo, modules or more complexity, much of the code or config is repeated.

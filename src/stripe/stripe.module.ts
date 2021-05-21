@@ -15,6 +15,7 @@ import { config } from 'dotenv';
 import { StripeCheckoutController } from './stripe-checkout.controller';
 import { StripeFixedPriceController } from './stripe-fixed-price.controller';
 import { StripeMeteredUsageController } from './stripe-metered-usage.controller';
+import { StripePerSeatController } from './stripe-per-seat.controller';
 import { StripeAppService } from './stripe.service';
 config();
 
@@ -43,6 +44,7 @@ config();
     StripeCheckoutController,
     StripeFixedPriceController,
     StripeMeteredUsageController,
+    StripePerSeatController,
   ],
   providers: [StripeAppService],
 })
