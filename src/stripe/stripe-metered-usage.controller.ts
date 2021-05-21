@@ -9,22 +9,15 @@ import { MURetrieveCustomerPM } from './metered-usage-dto/retrieveCustomerPM.dto
 import { MURetryInvoice } from './metered-usage-dto/retry-invoice.dto';
 import { MURetryUpcomingInvoice } from './metered-usage-dto/retry-upcoming-invoice.dto';
 import { MUUpdateSubscriptionDto } from './metered-usage-dto/update-subscription.dto';
-import { StripeAppService } from './stripe.service';
 
 // REF: https://github.com/stripe-samples/subscription-use-cases/blob/master/usage-based-subscriptions/server/node/server.js
 
 @Controller('stripe-metered-usage')
 export class StripeMeteredUsageController {
   constructor(
-    private readonly stripeSvc: StripeAppService,
     private readonly configSvc: ConfigService,
     @InjectStripeClient() private stripeClient: Stripe,
   ) {}
-
-  @Get('hello')
-  getHello(): string {
-    return this.stripeSvc.getHello();
-  }
 
   // TODO: Implement with Config
   @Get('setup')

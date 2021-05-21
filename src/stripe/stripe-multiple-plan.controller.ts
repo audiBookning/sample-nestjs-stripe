@@ -4,22 +4,15 @@ import { ConfigService } from '@nestjs/config';
 import Stripe from 'stripe';
 import { MPCreateCustomerDto } from './multiple-plan-dto/create-customer.dto';
 import { MPGetSubscriptionDto } from './multiple-plan-dto/get-subscription.dto';
-import { StripeAppService } from './stripe.service';
 
 // REF: https://github.com/stripe-samples/charging-for-multiple-plan-subscriptions/blob/master/server/node/server.js
 
 @Controller('stripe-multiple-plan')
 export class StripeMultiplePlanController {
   constructor(
-    private readonly stripeSvc: StripeAppService,
     private readonly configSvc: ConfigService,
     @InjectStripeClient() private stripeClient: Stripe,
   ) {}
-
-  @Get('hello')
-  getHello(): string {
-    return this.stripeSvc.getHello();
-  }
 
   @Get('setup')
   async getSetup() {

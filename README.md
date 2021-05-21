@@ -22,7 +22,7 @@
 
 - The whole stripe code is in the `StripeAppModule`.
 
-- There are 5 different controllers and "main" routes, implementing different strategies
+- There are 5 different controllers and "main" routes each with its own service (used at this time only for the Webhooks), implementing different strategies:
 
   - The code used in the `StripeCheckoutController` is directly based from [Using Checkout for subscriptions](https://github.com/stripe-samples/checkout-single-subscription/).
 
@@ -34,13 +34,17 @@
 
   - The code used in the `StripeMultiplePlanController` is directly based from [Stripe Billing sample subscribing a customer to multiple products](https://github.com/stripe-samples/charging-for-multiple-plan-subscriptions).
 
-- The Webhooks are consumed in the stripe service with the help of the `@StripeWebhookHandler` decorator.
+- The Webhooks are consumed in the stripe services with the help of the `@StripeWebhookHandler` decorator.
+
+- Leave only one service as a provider in the module by uncommenting it (comment the others) to avoid to much confusion.
 
 - The route for the Webhooks is `stripe/webhook`.
 
 - Rename `.env.example` to `.env` and change the stripe keys.
 
 - Since this is just a test (with minimal effort ...) and in with the objective of separating a little the code of the different subscription strategies without creating different repo, modules or more complexity, much of the code or config is repeated.
+
+- Each strategy has a separate config file. Many times the config is the same between them...
 
 ## TODO
 
@@ -50,8 +54,6 @@
 
 - Many try catch missing, although Nestjs catch them by default...
 
-- Maybe separate services for each strategy?
-
-- separate config file for each strategy?
+- Maybe separate module for each strategy?
 
 - Integrate with a database. Maybe do it in a different repo in order to separate the basic "routing" implementation on its own?

@@ -5,21 +5,14 @@ import { Stripe } from 'stripe';
 import { CreatePortalSessionDto } from './checkout-dto/create-portal-session.dto';
 import { CkCreateCheckoutSessionDto } from './checkout-dto/create-subscription.dto';
 import { GetCheckoutSessionDto } from './checkout-dto/get-checkout-session.dto';
-import { StripeAppService } from './stripe.service';
 // REF: https://github.com/stripe-samples/checkout-single-subscription/blob/master/server/node/server.js
 
 @Controller('stripe-checkout')
 export class StripeCheckoutController {
   constructor(
-    private readonly stripeSvc: StripeAppService,
     private readonly configSvc: ConfigService,
     @InjectStripeClient() private readonly stripeClient: Stripe,
   ) {}
-
-  @Get('hello')
-  getHello(): string {
-    return this.stripeSvc.getHello();
-  }
 
   // Fetch the Checkout Session to display the JSON result on the success page
   @Get('checkout-session')

@@ -2,13 +2,25 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import configuration from './config/configuration';
+import baseConfig from './config/base.config';
+import checkoutConfig from './config/checkout.config';
+import fixedPriceConfig from './config/fixed-price.config';
+import meteredUsageConfig from './config/metered-usage.config';
+import multiPlanConfig from './config/multi-plan.config';
+import perSeatConfig from './config/per-seat.config';
 import { StripeAppModule } from './stripe/stripe.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [configuration],
+      load: [
+        baseConfig,
+        checkoutConfig,
+        fixedPriceConfig,
+        meteredUsageConfig,
+        multiPlanConfig,
+        perSeatConfig,
+      ],
       isGlobal: true,
     }),
     StripeAppModule,

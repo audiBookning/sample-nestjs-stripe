@@ -9,22 +9,15 @@ import { PSRetrieveSubsInfoDto } from './per-seat-dto/retrieve-subs-info.dto';
 import { PSRetryInvoice } from './per-seat-dto/retry-invoice.dto';
 import { PSRetryUpcomingInvoice } from './per-seat-dto/retry-upcoming-invoice.dto';
 import { PSUpdateSubscriptionDto } from './per-seat-dto/update-subscription.dto';
-import { StripeAppService } from './stripe.service';
 
 // REF: https://github.com/stripe-samples/subscription-use-cases/blob/master/per-seat-subscriptions/server/node/server.js
 
 @Controller('stripe-per-seat')
 export class StripePerSeatController {
   constructor(
-    private readonly stripeSvc: StripeAppService,
     private readonly configSvc: ConfigService,
     @InjectStripeClient() private stripeClient: Stripe,
   ) {}
-
-  @Get('hello')
-  getHello(): string {
-    return this.stripeSvc.getHello();
-  }
 
   // TODO: Implement with Config
   @Get('setup')

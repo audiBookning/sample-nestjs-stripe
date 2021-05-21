@@ -13,11 +13,11 @@ import {
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { StripeCheckoutController } from './stripe-checkout.controller';
+import { StripeCheckoutService } from './stripe-checkout.service';
 import { StripeFixedPriceController } from './stripe-fixed-price.controller';
 import { StripeMeteredUsageController } from './stripe-metered-usage.controller';
 import { StripeMultiplePlanController } from './stripe-multiple-plan.controller';
 import { StripePerSeatController } from './stripe-per-seat.controller';
-import { StripeAppService } from './stripe.service';
 config();
 
 @Module({
@@ -48,7 +48,13 @@ config();
     StripePerSeatController,
     StripeMultiplePlanController,
   ],
-  providers: [StripeAppService],
+  providers: [
+    StripeCheckoutService,
+    // StripeFixedPriceService,
+    // StripeMeteredUsageService,
+    // StripeMultiplePlanService,
+    // StripePerSeatService,
+  ],
 })
 export class StripeAppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

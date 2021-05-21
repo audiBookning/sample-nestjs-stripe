@@ -7,22 +7,15 @@ import { FPCreateCustomerDto } from './fixed-price-dto/create-customer.dto';
 import { FPCreateSubscriptionDto } from './fixed-price-dto/create-subscription.dto';
 import { FPGetInvoicePreviewDto } from './fixed-price-dto/get-invoice-preview.dto';
 import { FPUpdateSubscriptionDto } from './fixed-price-dto/update-subscription.dto';
-import { StripeAppService } from './stripe.service';
 
 // REF: https://github.com/stripe-samples/subscription-use-cases/blob/master/fixed-price-subscriptions/server/node/server.js
 
 @Controller('stripe-fixed-price')
 export class StripeFixedPriceController {
   constructor(
-    private readonly stripeSvc: StripeAppService,
     private readonly configSvc: ConfigService,
     @InjectStripeClient() private stripeClient: Stripe,
   ) {}
-
-  @Get('hello')
-  getHello(): string {
-    return this.stripeSvc.getHello();
-  }
 
   // TODO: Implement with Config
   @Get('setup')
