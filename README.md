@@ -53,3 +53,6 @@
 - Errors are too generic and many try catch missing, although Nestjs catch them by default...
 
 - Integrate with a database. Maybe do it in a different repo in order to separate the basic "routing" implementation on its own?
+
+License
+ISC © 2021 AudiBookning
