@@ -54,5 +54,13 @@
 
 - Integrate with a database. Maybe do it in a different repo in order to separate the basic "routing" implementation on its own?
 
+## Disclaimer
+
+This code is not and will never be maintained. It is just some random sample code.
+
+Feel free to copy and make any change you like.
+
+##
+
 License
 ISC © 2021 AudiBookning
