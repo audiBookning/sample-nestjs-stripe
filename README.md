@@ -1,5 +1,7 @@
 # Just a little test to try to implement Stripe with Nestjs
 
+Part of a personal [list](https://github.com/audiBookning/sample-nestjs-codes) of random samples code for NestJS
+
 - Code Still not complete and not presentable. 😎
 
 - And more importantly, there is no tests.
